@@ -208,15 +208,19 @@ def ols(xs, ys):
 
 
 def analyse(points):
-    lx = [math.log10(p["requests"]) for p in points]
-    a, b = ols(lx, [p["score"] for p in points])
-    ss_res = sum((p["score"] - (a + b * x)) ** 2 for p, x in zip(points, lx))
-    my = sum(p["score"] for p in points) / len(points)
-    r2 = 1 - ss_res / sum((p["score"] - my) ** 2 for p in points)
-    for p, x in zip(points, lx):
-        p["residual"] = round(p["score"] - (a + b * x), 2)
-        p["pareto"] = not any(q is not p and q["requests"] >= p["requests"] and q["score"] >= p["score"]
-                              and (q["requests"] > p["requests"] or q["score"] > p["score"]) for q in points)
+    # Unlimited models sit at a placeholder x, so they'd only bias the fit; they still count for Pareto.
+    fitted = [p for p in points if not p["unlimited"]]
+    lx = [math.log10(p["requests"]) for p in fitted]
+    a, b = ols(lx, [p["score"] for p in fitted])
+    ss_res = sum((p["score"] - (a + b * x)) ** 2 for p, x in zip(fitted, lx))
+    my = sum(p["score"] for p in fitted) / len(fitted)
+    r2 = 1 - ss_res / sum((p["score"] - my) ** 2 for p in fitted)
+    for p in points:
+        p["residual"] = round(p["score"] - (a + b * math.log10(p["requests"])), 2)
+    req = lambda p: math.inf if p["unlimited"] else p["requests"]  # Pareto uses the true limit
+    for p in points:
+        p["pareto"] = not any(q is not p and req(q) >= req(p) and q["score"] >= p["score"]
+                              and (req(q) > req(p) or q["score"] > p["score"]) for q in points)
     return {"a": a, "b": b, "r2": r2}
 
 
@@ -238,15 +242,18 @@ def main():
         fetch_aa_live(caps)
     fill_estimates(caps)
 
+    # Free/unlimited models are placed at the most generous finite limit on the plan:
+    # they allow at least that much, and an infinite x can't be drawn on a log axis.
+    max_finite = max(m["requests"] for m in models if m["requests"] != math.inf)
     points, excluded = [], []
     for m in models:
         c = caps.get(m["id"]) or {}
-        if m["requests"] == math.inf:
-            excluded.append({"name": m["name"], "reason": "unlimited (free promo), no finite limit to plot"})
-        elif c.get("aa_index") is None:
-            excluded.append({"name": m["name"], "reason": c.get("note") or "no capability score found"})
+        if c.get("aa_index") is None:
+            excluded.append({"name": m["name"], "reason": c.get("note") or "no AA Index score found"})
         else:
-            points.append({"id": m["id"], "name": m["name"], "requests": m["requests"],
+            unlimited = m["requests"] == math.inf
+            points.append({"id": m["id"], "name": m["name"], "unlimited": unlimited,
+                           "requests": max_finite if unlimited else m["requests"],
                            "score": c["aa_index"], "type": c.get("type", ""), "variant": c.get("aa_name", ""),
                            "sources": c.get("sources", []), "note": c.get("note", ""),
                            "bonus": m.get("bonus"), "limitedTime": m.get("limitedTime")})

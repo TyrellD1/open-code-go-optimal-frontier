@@ -106,6 +106,7 @@ ul.excl { margin: 4px 0; padding-left: 18px; color: var(--text-secondary); font-
       <span><svg width="22" height="12"><line x1="0" y1="6" x2="22" y2="6" stroke="var(--trend)" stroke-width="2" stroke-dasharray="5 4"/></svg>Trend</span>
       <span><svg width="22" height="12"><polyline points="0,10 11,10 11,2 22,2" fill="none" stroke="var(--frontier)" stroke-width="2"/></svg>Frontier</span>
       <span><svg width="12" height="12"><circle cx="6" cy="6" r="4" fill="none" stroke="var(--text-muted)" stroke-width="1.5" stroke-dasharray="2 2"/></svg>Estimated score</span>
+      <span><svg width="12" height="12"><path d="M6 0.5 L11.5 6 L6 11.5 L0.5 6 Z" fill="var(--text-muted)"/></svg>Free, unlimited (placed at the highest limit)</span>
     </div>
     <svg id="chart" role="img" aria-label="Scatter plot of capability against requests per 5 hours"></svg>
   </div>
@@ -113,7 +114,7 @@ ul.excl { margin: 4px 0; padding-left: 18px; color: var(--text-secondary); font-
   <h2>All plotted models</h2>
   <div class="card scroll"><table id="table"></table></div>
 
-  <h2>Not plotted</h2>
+  <h2>Not plotted (no AA Index score)</h2>
   <ul class="excl" id="excluded"></ul>
 
   <div class="foot" id="foot"></div>
@@ -188,7 +189,8 @@ function draw() {
     "stroke-dasharray": "6 5", "clip-path": "url(#plot)" }, svg);
 
   // Pareto staircase: sorted by requests ascending, score descending.
-  const front = pts.filter((p) => p.pareto).sort((p, q) => p.requests - q.requests);
+  const trueReq = (p) => (p.unlimited ? Infinity : p.requests);
+  const front = pts.filter((p) => p.pareto).sort((p, q) => trueReq(p) - trueReq(q) || q.score - p.score);
   let d = "";
   front.forEach((p, i) => {
     d += i === 0 ? `M${X(p.requests)},${Y(p.score)}` : ` H${X(p.requests)} V${Y(p.score)}`;
@@ -200,13 +202,17 @@ function draw() {
   const tip = document.getElementById("tip");
   for (const p of order) {
     const c = cls(p), cx = X(p.requests), cy = Y(p.score);
-    const grp = el("g", { tabindex: 0, role: "img", "aria-label": `${p.name}: ${p.score} index, ${fmt.format(p.requests)} requests` }, svg);
-    el("circle", { cx, cy, r: c === "frontier" ? 6.5 : 5, fill: `var(--${c})`, stroke: "var(--surface-1)", "stroke-width": 2 }, grp);
+    const grp = el("g", { tabindex: 0, role: "img", "aria-label": `${p.name}: ${p.score} index, ${p.unlimited ? "unlimited" : fmt.format(p.requests)} requests` }, svg);
+    const r = c === "frontier" ? 6.5 : 5;
+    if (p.unlimited) {
+      const k = r * 1.35;
+      el("path", { d: `M${cx},${cy - k} L${cx + k},${cy} L${cx},${cy + k} L${cx - k},${cy} Z`, fill: `var(--${c})`, stroke: "var(--surface-1)", "stroke-width": 2 }, grp);
+    } else el("circle", { cx, cy, r, fill: `var(--${c})`, stroke: "var(--surface-1)", "stroke-width": 2 }, grp);
     if (estimated(p)) el("circle", { cx, cy, r: 9.5, fill: "none", stroke: "var(--text-muted)", "stroke-width": 1.5, "stroke-dasharray": "2 2" }, grp);
     el("circle", { cx, cy, r: 14, fill: "transparent" }, grp);
     const show = (ev) => {
       tip.innerHTML = `<b>${esc(p.name)}</b>` +
-        `<span class="k">Requests / 5h:</span> ${fmt.format(p.requests)}<br>` +
+        `<span class="k">Requests / 5h:</span> ${p.unlimited ? `unlimited (free promo), placed at ${fmt.format(p.requests)}` : fmt.format(p.requests)}<br>` +
         `<span class="k">AA Index:</span> ${p.score}${p.variant ? ` <span class="k">(${esc(p.variant)})</span>` : ""}<br>` +
         `<span class="k">vs trend:</span> ${p.residual >= 0 ? "+" : ""}${p.residual}<br>` +
         `<span class="k">${p.pareto ? "On Pareto frontier" : p.residual >= 0 ? "Above trend" : "Below trend"} · ${esc(p.type)}</span>`;
@@ -258,13 +264,13 @@ function table() {
   document.getElementById("table").innerHTML =
     `<thead><tr><th>Model</th><th>Status</th><th style="text-align:right">Req / 5h</th><th style="text-align:right">AA Index</th><th style="text-align:right">vs trend</th><th>Score source</th></tr></thead><tbody>` +
     rows.map((p) => `<tr><td>${esc(p.name)}${p.bonus ? ` <span class="tag">(${p.bonus}× promo)</span>` : ""}</td><td>${status(p)}</td>` +
-      `<td class="n">${fmt.format(p.requests)}</td><td class="n">${p.score}</td>` +
+      `<td class="n">${p.unlimited ? "∞ free" : fmt.format(p.requests)}</td><td class="n">${p.score}</td>` +
       `<td class="n">${p.residual >= 0 ? "+" : ""}${p.residual.toFixed(1)}</td>` +
       `<td class="src">${esc(p.variant ? p.variant + " · " : "")}${esc(p.type)} ${links(p)}${p.note ? `<br>${esc(p.note)}` : ""}</td></tr>`).join("") +
     `</tbody>`;
   document.getElementById("excluded").innerHTML = DATA.excluded.map((e) => `<li><b>${esc(e.name)}</b>: ${esc(e.reason)}</li>`).join("");
   document.getElementById("foot").innerHTML =
-    `<p>Limits: ${esc(DATA.modelSource)}. Requests per 5h are OpenCode's own estimates for the $10 Go plan (the 5h window is 20% of each model's monthly allowance); promo multipliers are included as currently shown.</p>` +
+    `<p>Limits: ${esc(DATA.modelSource)}. Requests per 5h are OpenCode's own estimates for the $10 Go plan (the 5h window is 20% of each model's monthly allowance); promo multipliers are included as currently shown. Free promotional models have no request cap; they are drawn at the plan's highest finite limit (diamonds), left out of the trend fit, and treated as unlimited for the Pareto frontier.</p>` +
     `<p>Capability: ${esc(DATA.capSource)}</p><p>Generated ${esc(DATA.generated)} by build.py.</p>`;
 }
 

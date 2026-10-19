@@ -249,6 +249,35 @@
         "https://artificialanalysis.ai/models/step-5"
       ],
       "aa_slug": "step-5"
+    },
+    "minimax-m3.1-flash-free": {
+      "aa_name": "MiniMax-M3.1-Flash",
+      "aa_slug": "minimax-m3-1-flash",
+      "aa_index": 42,
+      "type": "official AA",
+      "sources": [
+        "https://artificialanalysis.ai/models/minimax-m3-1-flash"
+      ]
+    },
+    "beam-free": {
+      "aa_name": "Beam 1.0 (Reflection)",
+      "aa_slug": "reflection-beam",
+      "aa_index": 30,
+      "type": "official AA",
+      "sources": [
+        "https://artificialanalysis.ai/models/reflection-beam",
+        "https://artificialanalysis.ai/articles/reflection-beam"
+      ]
+    },
+    "longcat-2.5-preview-free": {
+      "aa_name": "LongCat-2.5-Preview",
+      "aa_slug": "longcat-2-5-preview",
+      "aa_index": null,
+      "type": "",
+      "sources": [
+        "https://www.orcarouter.ai/blog/longcat-2-5"
+      ],
+      "note": "no confirmed AA Index score yet (one third-party blog cites 43.6, unverified)"
     }
   }
 }

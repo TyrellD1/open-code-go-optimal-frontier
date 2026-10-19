@@ -24,7 +24,7 @@ reference models per benchmark. Otherwise you can set `aa_index` by hand with
 
 - **Trend:** OLS fit of `score = a + b·log10(requests)`. The model's residual is its distance from this line.
 - **Pareto frontier:** a model is on the frontier if no other model has both at least as many requests and at least as high a score.
-- Free promotional models with unlimited requests are listed but not plotted.
+- Free promotional models (unlimited requests) are drawn as diamonds at the highest finite limit on the plan, left out of the trend fit, and treated as unlimited for the Pareto frontier. Only models with no AA Index score are left off the chart.
 
 ```
 python3 build.py            # fetch everything and rebuild index.html
