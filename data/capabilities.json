@@ -1,0 +1,254 @@
+{
+  "description": "Artificial Analysis Intelligence Index v4.3.x (0-100 composite of ~10 evals; v4.1 scores are on a different, higher scale and are not used). Values researched 2026-10-19 from AA pages via search; set ARTIFICIAL_ANALYSIS_API_KEY to refresh live. Where a model has several effort levels, the highest generally available one is used.",
+  "as_of": "2026-10-19",
+  "models": {
+    "kimi-k3": {
+      "aa_name": "Kimi K3 (max)",
+      "aa_index": 43.6,
+      "type": "official AA",
+      "sources": [
+        "https://artificialanalysis.ai/models/comparisons/glm-5-3-vs-kimi-k3"
+      ],
+      "aa_slug": "kimi-k3"
+    },
+    "qwen3.8-max": {
+      "aa_name": "Qwen3.8 Max 0902",
+      "aa_index": 45.4,
+      "type": "official AA",
+      "sources": [
+        "https://artificialanalysis.ai/models/releases/qwen3-8-max-0902",
+        "https://benchmarklist.com/benchmarks/artificial_analysis_intelligence_index/"
+      ],
+      "aa_slug": "qwen3-8-max-0902"
+    },
+    "grok-4.7": {
+      "aa_name": "Grok 4.7 (high)",
+      "aa_index": 46,
+      "type": "official AA",
+      "sources": [
+        "https://artificialanalysis.ai/models/releases/grok-4-7"
+      ],
+      "aa_slug": "grok-4-7",
+      "note": "Low effort scores 42"
+    },
+    "glm-5.3": {
+      "aa_name": "GLM-5.3 (max)",
+      "aa_index": 44.8,
+      "type": "official AA (AA estimate)",
+      "sources": [
+        "https://artificialanalysis.ai/models/releases/glm-5-3",
+        "https://benchmarklist.com/benchmarks/artificial_analysis_intelligence_index/"
+      ],
+      "aa_slug": "glm-5-3",
+      "note": "AA marks this as an estimate pending independent evaluation"
+    },
+    "gemini-4-argon-contributor": {
+      "aa_name": "Gemini 4 Argon (high)",
+      "aa_index": 52.6,
+      "type": "official AA",
+      "sources": [
+        "https://artificialanalysis.ai/models/gemini-4-argon"
+      ],
+      "aa_slug": "gemini-4-argon",
+      "note": "Assumed same model as the Go 'Contributor' variant"
+    },
+    "glm-5.2": {
+      "aa_name": "GLM-5.2 (max)",
+      "aa_index": 33.7,
+      "type": "official AA",
+      "sources": [
+        "https://artificialanalysis.ai/models/glm-5-2"
+      ],
+      "aa_slug": "glm-5-2",
+      "note": "Some pages report 39; main AA page shows 33.7"
+    },
+    "deepseek-v4-pro": {
+      "aa_name": "DeepSeek V4 Pro 0813 (max)",
+      "aa_index": 36,
+      "type": "official AA",
+      "sources": [
+        "https://artificialanalysis.ai/models/comparisons/kimi-k3-vs-deepseek-v4-pro"
+      ],
+      "aa_slug": "deepseek-v4-pro",
+      "note": "Older 0424 release scores ~30"
+    },
+    "kimi-k2.7-code": {
+      "aa_name": "Kimi K2.7 Code",
+      "aa_index": 25.8,
+      "type": "official AA",
+      "sources": [
+        "https://artificialanalysis.ai/models/kimi-k2-7-code"
+      ],
+      "aa_slug": "kimi-k2-7-code"
+    },
+    "hy4-preview": {
+      "aa_name": "Hy4 preview",
+      "aa_index": 28.5,
+      "type": "estimated",
+      "sources": [
+        "https://www.datalearner.com/en/ai-models/compare/hy4-preview/vs/tencent-hy3"
+      ],
+      "note": "Not yet on AA; Hy3 (25) plus Tencent-reported gains on GPQA-D, HLE and Terminal-Bench"
+    },
+    "gpt-5.6-luna": {
+      "aa_name": "GPT-5.6 Luna (max)",
+      "aa_index": 37,
+      "type": "official AA",
+      "sources": [
+        "https://artificialanalysis.ai/models/gpt-5-6-luna"
+      ],
+      "aa_slug": "gpt-5-6-luna",
+      "note": "Marked deprecated on AA"
+    },
+    "minimax-m3": {
+      "aa_name": "MiniMax-M3",
+      "aa_index": 29,
+      "type": "official AA",
+      "sources": [
+        "https://artificialanalysis.ai/models/minimax-m3"
+      ],
+      "aa_slug": "minimax-m3"
+    },
+    "mimo-v2.6-pro": {
+      "aa_name": "MiMo-V2.6-Pro",
+      "aa_index": 46.3,
+      "type": "official AA",
+      "sources": [
+        "https://artificialanalysis.ai/models/releases/mimo-v2-6-pro"
+      ],
+      "aa_slug": "mimo-v2-6-pro",
+      "note": "Top open-weights model on AA"
+    },
+    "mimo-v2.5-pro": {
+      "aa_name": "MiMo-V2.5-Pro",
+      "aa_index": 26,
+      "type": "official AA",
+      "sources": [
+        "https://artificialanalysis.ai/models/comparisons/mimo-v2-5-pro-vs-mimo-v2-6-pro"
+      ],
+      "aa_slug": "mimo-v2-5-pro"
+    },
+    "claude-haiku-5-5": {
+      "aa_name": "Claude Haiku 5.5 (max)",
+      "aa_index": 43,
+      "type": "official AA",
+      "sources": [
+        "https://artificialanalysis.ai/models/claude-haiku-5-5"
+      ],
+      "aa_slug": "claude-haiku-5-5",
+      "note": "xhigh 41, high 38, medium 34"
+    },
+    "qwen3.7-plus": {
+      "aa_name": "Qwen3.7 Plus",
+      "aa_index": 25.2,
+      "type": "official AA",
+      "sources": [
+        "https://artificialanalysis.ai/models/comparisons/qwen3-7-plus-vs-qwen3-7-max"
+      ],
+      "aa_slug": "qwen3-7-plus",
+      "note": "Its own AA page shows 32 (version unclear)"
+    },
+    "gpt-6-luna": {
+      "aa_name": "GPT-6 Luna (max)",
+      "aa_index": 37,
+      "type": "official AA",
+      "sources": [
+        "https://artificialanalysis.ai/models/gpt-6-luna"
+      ],
+      "aa_slug": "gpt-6-luna",
+      "note": "xhigh 34, high 32, medium 29"
+    },
+    "hy3": {
+      "aa_name": "Hy3",
+      "aa_index": 25,
+      "type": "official AA",
+      "sources": [
+        "https://artificialanalysis.ai/models/hy3"
+      ],
+      "aa_slug": "hy3"
+    },
+    "qwen3.8-flash": {
+      "aa_name": "Qwen3.8-Flash-Next",
+      "aa_index": 40,
+      "type": "official AA",
+      "sources": [
+        "https://artificialanalysis.ai/models/qwen3-8-flash-next"
+      ],
+      "aa_slug": "qwen3-8-flash-next",
+      "note": "Matched to AA's 'Qwen3.8-Flash-Next'; no plain Qwen3.8 Flash entry"
+    },
+    "glm-5.3-flash": {
+      "aa_name": "GLM-5.3-Flash",
+      "aa_index": 41.8,
+      "type": "official AA",
+      "sources": [
+        "https://artificialanalysis.ai/models/glm-5-3-flash"
+      ],
+      "aa_slug": "glm-5-3-flash"
+    },
+    "deepseek-flash": {
+      "aa_name": "DeepSeek V4.1 Flash (max)",
+      "aa_index": 39.5,
+      "type": "official AA",
+      "sources": [
+        "https://artificialanalysis.ai/models/deepseek-v4-1-flash"
+      ],
+      "aa_slug": "deepseek-v4-1-flash"
+    },
+    "longcat-2.0": {
+      "aa_name": "LongCat-2.0",
+      "aa_index": 19.1,
+      "type": "official AA",
+      "sources": [
+        "https://artificialanalysis.ai/models/longcat-2-0"
+      ],
+      "aa_slug": "longcat-2-0"
+    },
+    "mimo-v2.6-flash": {
+      "aa_name": "MiMo-V2.6-Flash",
+      "aa_index": 37.9,
+      "type": "official AA",
+      "sources": [
+        "https://artificialanalysis.ai/models/mimo-v2-6-flash"
+      ],
+      "aa_slug": "mimo-v2-6-flash"
+    },
+    "mimo-v2.5": {
+      "aa_name": "MiMo-V2.5",
+      "aa_index": 22,
+      "type": "official AA",
+      "sources": [
+        "https://artificialanalysis.ai/models/mimo-v2-5-0424"
+      ],
+      "aa_slug": "mimo-v2-5-0424"
+    },
+    "muse-spark-1.3-contributor": {
+      "aa_name": "Muse Spark 1.3 (xhigh)",
+      "aa_index": 45,
+      "type": "official AA",
+      "sources": [
+        "https://artificialanalysis.ai/models/muse-spark-1-3-xhigh"
+      ],
+      "aa_slug": "muse-spark-1-3-xhigh",
+      "note": "Max effort scores 48 but is limited preview"
+    },
+    "muse-spark-1.2-contributor": {
+      "aa_name": "Muse Spark 1.2 (xhigh)",
+      "aa_index": 39.6,
+      "type": "official AA",
+      "sources": [
+        "https://artificialanalysis.ai/models/muse-spark-1-2"
+      ],
+      "aa_slug": "muse-spark-1-2"
+    },
+    "step-5-preview": {
+      "aa_name": "Step 5",
+      "aa_index": 44,
+      "type": "official AA",
+      "sources": [
+        "https://artificialanalysis.ai/models/step-5"
+      ],
+      "aa_slug": "step-5"
+    }
+  }
+}
